@@ -2,23 +2,28 @@ import * as THREE from 'three'
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
 // Variables
 const scale = 2;
 let count = 7;
 let cube;
-const material = new THREE.MeshLambertMaterial({color:'red'});
+const material = new THREE.MeshPhysicalMaterial({
+    roughness: 0,
+    metalness: 0,
+    transmission: 1
+}); //THREE.MeshLambertMaterial({color:'red'});
 
 // Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x505050);
 
 // Lights
-var light = new THREE.DirectionalLight(0xffffff,0.5);
-light.position.set(1, 1, 1).normalize();
-scene.add(light);
-scene.add(new THREE.AmbientLight(0xffffff,0.5))
+// var light = new THREE.DirectionalLight(0xffffff,0.5);
+// light.position.set(1, 1, 1).normalize();
+// scene.add(light);
+// scene.add(new THREE.AmbientLight(0xffffff,0.5))
 
 // Camera
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -80,6 +85,17 @@ let stats = new Stats();
 document.body.appendChild(stats.dom);
 
 // GUI?
+
+// RGBE loader (background)
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const loader = new RGBELoader();
+const backgroundTexture = new URL('../src/img/meadow_2_8k.hdr', import.meta.url);
+loader.load(backgroundTexture, function(texture) {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    scene.background = texture;
+    scene.environment = texture;
+})
 
 function updateCubes(object, time, numblobs, floor, wallx, wallz) {
     object.reset();
