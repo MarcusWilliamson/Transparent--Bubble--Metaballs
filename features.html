@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features</title>
+</head>
+<body>
+    <h1>Prog5: Transparent "Bubble" Metaballs</h1>
+    <h2>VR Supported!</h2>
+    <p>by Marcus Wiliamson<br>
+    for CSE 160 W2024</p>
+    <img src="thumbnail.jpg" alt="Screenshot"><br>
+    <p>CSE 160 Winter 2024<br>
+    March 17, 2024<br>
+    Student ID: 1834999</p>
+
+    <a href="index.html">Click here to demo</a><br>
+    
+    <a href="src/main.js">Main.js</a><br>
+    <p><b>User Guide: </b>Use the left and right mouse buttons to move and rotate the camera, and the scroll wheel to zoom. To view the scene in VR,<br>
+        click the "Enter VR" button at the bottom of the screen.</p>
+
+    <p><b>Description: </b>This program uses metaballs/marching cubes with a transparent material to simulate bubbles. I based my metaball implementation<br>
+        on the three.js docs example at: https://threejs.org/examples/webgl_marchingcubes.html, which uses three.js's built-in marching cubes<br>
+        module. I used WebXR to enable the scene to be viewed in VR. Camera movement was implemented using three.js's OrbitControls.<br>
+        Upon pressing "Enter VR," the user's XR Transform (which controls the camera in VR) position will be set to the camera position set by<br>
+        the user. The material I used is a PhysicalMaterial with its transmission set to 1.0, which creates the transparent effect. The scene also<br>
+        applies environment mapping to the material based on the background texture, which is a 360 degree HDRi. This environment mapping generates<br>
+        a lighting effect on the bubbles without using light sources in the scene. The program should run on a desktop or laptop computer fine.<br>
+        Have not yet tested with standalone/mobile VR.
+    </p>
+    <p>Background image is a free image from: https://polyhaven.com/a/buikslotermeerplein</p>
+    <IMG SRC="clip.gif">
+</body>
+</html>

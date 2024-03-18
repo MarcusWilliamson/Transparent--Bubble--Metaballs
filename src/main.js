@@ -1,3 +1,7 @@
+// Metaballs implementation based on three.js example at: https://threejs.org/examples/webgl_marchingcubes.html
+// Marching cubes algorithm is in built-in MarchingCubes three.js module
+// Background HDR image from: https://polyhaven.com/a/buikslotermeerplein
+
 import * as THREE from 'three'
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -77,8 +81,6 @@ scene.add(effect);
 let stats = new Stats();
 document.body.appendChild(stats.dom);
 
-// GUI?
-
 // RGBE loader (background)
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -87,11 +89,11 @@ const backgroundTexture = new URL('../src/img/buikslotermeerplein_4k.hdr', impor
 loader.load(backgroundTexture, function(texture) {
     texture.mapping = THREE.EquirectangularReflectionMapping;
     scene.background = texture;
-    scene.environment = texture;
+    scene.environment = texture;  // Generates environment map/lighting based on texture
 })
 
 // Metaballs
-function updateCubes(object, time, numblobs) {  //, floor, wallx, wallz) {
+function updateCubes(object, time, numblobs) {
     object.reset();
 
     const subtract = 12;
@@ -103,10 +105,6 @@ function updateCubes(object, time, numblobs) {  //, floor, wallx, wallz) {
 		const ballz = Math.cos( i + 1.32 * time * 0.1 * Math.sin( ( 0.92 + 0.53 * i ) ) ) * 0.27 + 0.5;
         object.addBall(ballx, bally, ballz, strength, subtract);
     }
-
-    /*if(floor) object.addPlaneY(2, 12);
-    if (wallz) object.addPlaneZ(2, 12);
-	if (wallx) object.addPlaneX(2, 12);*/
 
     object.update();
 }
@@ -122,5 +120,5 @@ function render(time) {
     ballTime += delta * speed * 0.5;
     
     effect.init( Math.floor( resolution ) );
-    updateCubes(effect, ballTime, count);  //, true, true, true);
+    updateCubes(effect, ballTime, count);
 }
